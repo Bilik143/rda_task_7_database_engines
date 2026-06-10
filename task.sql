@@ -1,20 +1,20 @@
-CREATE DATABASE ShopDB;
+CREATE DATABASE IF NOT EXISTS ShopDB;
 USE ShopDB;
 
-CREATE TABLE Countries (
+CREATE TABLE IF NOT EXISTS Countries (
     ID INT,
     Name VARCHAR(50),
     PRIMARY KEY (ID)
 ) ENGINE=InnoDB;
 
-CREATE TABLE GeoIPCache (
+CREATE TABLE IF NOT EXISTS GeoIPCache (
     ID INT,
     IPRange VARCHAR(50),
     CountryID INT,
     PRIMARY KEY (ID)
 ) ENGINE=MEMORY;
 
-CREATE TABLE ProductDescription (
+CREATE TABLE IF NOT EXISTS ProductDescription (
     ID INT,
     Description TEXT,
     ProductID INT,
@@ -22,14 +22,15 @@ CREATE TABLE ProductDescription (
     PRIMARY KEY (ID)
 ) ENGINE=MyISAM;
 
-CREATE TABLE Logs (
+CREATE TABLE IF NOT EXISTS Logs (
     ID INT,
     Timestamp DATETIME,
     Message TEXT,
     PRIMARY KEY (ID)
 ) ENGINE=BLACKHOLE;
 
-CREATE TABLE ProductReporting (
+CREATE TABLE IF NOT EXISTS ProductReporting (
     Date DATE NOT NULL,
     ProductName VARCHAR(100) NOT NULL,
     Orders INT NOT NULL
+) ENGINE=CSV;
