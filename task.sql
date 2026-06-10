@@ -1,17 +1,37 @@
 CREATE DATABASE ShopDB; 
 USE ShopDB; 
 
--- Create a table to store countries 
 CREATE TABLE Countries (
     ID INT,
     Name VARCHAR(50),
     PRIMARY KEY (ID)
 ) ENGINE=InnoDB;
 
--- Create a table for caching GeoIP data (Columns: ID, IP Range, CountryID)
+CREATE TABLE IF NOT EXISTS GeoIPCache (
+    ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    IPRange VARCHAR(50) NOT NULL,
+    CountryID INT NOT NULL,
+    INDEX (IPRange),
+    INDEX (CountryID)
+) ENGINE=MEMORY;
 
--- Create a table for storing product descriptions for different countries (Columns: ID, CountryID, ProductID, Description )
+CREATE TABLE IF NOT EXISTS ProductDescription (
+    ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Description TEXT NOT NULL,
+    ProductID INT NOT NULL,
+    CountryID INT NOT NULL,
+    INDEX (ProductID),
+    INDEX (CountryID)
+) ENGINE=InnoDB;
 
--- Create a table for storing logs. For now we don't need to save them, but we need to implement functionality (Columns: ID, Time, LogRecord)
+CREATE TABLE IF NOT EXISTS Logs (
+    ID BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `Timestamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Message VARCHAR(1024)
+) ENGINE=MEMORY;
 
--- Create a table for storing reporting data, which will be send to a separate application in the CSV format for analytics purposes (Columns:  Date, ProductName, Orders)
+CREATE TABLE IF NOT EXISTS ProductReporting (
+    `Date` DATE NOT NULL,
+    ProductName VARCHAR(255) NOT NULL,
+    Orders INT NOT NULL
+) ENGINE=CSV;
